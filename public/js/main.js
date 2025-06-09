@@ -49,7 +49,7 @@ function challengePlayer(targetId) {
 }
 
 socket.on('challenge-received', (data) => {
-    const accept = confirm(`${data.from}向您发起挑战，是否接受？`);
+    const accept = confirm(`${data.from}向你发起挑战，是否接受？`);
     if (accept) {
         socket.emit('accept-challenge', data.challengerId);
     } else {
@@ -58,7 +58,7 @@ socket.on('challenge-received', (data) => {
 });
 
 socket.on('challenge-rejected', (data) => {
-    alert(`${data.by}拒绝了您的挑战`);
+    alert(`${data.by}拒绝了你的挑战`);
 });
 
 socket.on('challenge-timeout', () => {
@@ -93,15 +93,15 @@ socket.on('game-status-update', (data) => {
             if (data.isPlayer) {
                 gameStatus.innerHTML = `
                     <h4>对战结果</h4>
-                    <p>您的状态: ${data.yourStatus}</p>
-                    <p>对手选择: ${data.piece}</p>
+                    <p>你的状态: ${data.yourStatus}</p>
+                    <p>${data.opponent} 的状态: ${data.opponentStatus}</p>
                     <button onclick="resetGame()">重置</button>
                 `;
             } else {
                 gameStatus.innerHTML = `
                     <h4>对战结果</h4>
-                    <p>${data.player1}: ${data.player1Status} (${data.player1Piece})</p>
-                    <p>${data.player2}: ${data.player2Status} (${data.player2Piece})</p>
+                    <p>${data.player1}: ${data.player1Status}</p>
+                    <p>${data.player2}: ${data.player2Status}</p>
                     <p>等待玩家重置...</p>
                 `;
             }
@@ -127,7 +127,7 @@ socket.on('game-status-update', (data) => {
 function initializePieceSelection() {
     const pieces = ['司令', '军长', '师长', '旅长', '团长', '营长', '连长', '排长', '工兵', '地雷', '炸弹'];
     const selectionDiv = document.getElementById('piece-selection');
-    selectionDiv.innerHTML = '<h4>请选择您的棋子:</h4>';
+    selectionDiv.innerHTML = '<h4>请选择你的棋子:</h4>';
     pieces.forEach(piece => {
         const button = document.createElement('button');
         button.className = 'piece-button';
@@ -152,12 +152,10 @@ function resetGame() {
     socket.emit('reset-game', currentRoom);
 }
 
-// 心跳响应
 socket.on('ping', () => {
     socket.emit('pong');
 });
 
-// 错误处理
 socket.on('connect_error', (error) => {
     console.error('Connection error:', error);
     alert('连接服务器失败，请刷新页面重试');
