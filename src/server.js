@@ -80,7 +80,6 @@ io.on('connection', (socket) => {
 
         const room = createRoom(challengerId, socket.id);
 
-        // 通知对战玩家
         io.to(challengerId).emit('game-status-update', {
             status: 'playing',
             isPlayer: true,
@@ -95,7 +94,6 @@ io.on('connection', (socket) => {
             roomId: room.id
         });
 
-        // 通知观战玩家
         socket.broadcast.except([challengerId, socket.id]).emit('game-status-update', {
             status: 'watching',
             player1: challenger.nickname,
@@ -137,13 +135,12 @@ io.on('connection', (socket) => {
 
             const names = room.getPlayerNames(users);
 
-            // 通知对战玩家
             io.to(room.player1).emit('game-status-update', {
                 status: 'result',
                 isPlayer: true,
                 yourStatus: results.player1Status,
                 opponent: names.player2Name,
-                piece: room.getPieces().player2Piece
+                opponentStatus: results.player2Status
             });
 
             io.to(room.player2).emit('game-status-update', {
@@ -151,19 +148,16 @@ io.on('connection', (socket) => {
                 isPlayer: true,
                 yourStatus: results.player2Status,
                 opponent: names.player1Name,
-                piece: room.getPieces().player1Piece
+                opponentStatus: results.player1Status
             });
 
-            // 通知观战玩家
             socket.broadcast.except([room.player1, room.player2]).emit('game-status-update', {
                 status: 'result',
                 isPlayer: false,
                 player1: names.player1Name,
                 player2: names.player2Name,
                 player1Status: results.player1Status,
-                player2Status: results.player2Status,
-                player1Piece: room.getPieces().player1Piece,
-                player2Piece: room.getPieces().player2Piece
+                player2Status: results.player2Status
             });
         }
     });
@@ -194,11 +188,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', () => {
-        const user = users.get(socket.id);
-        if (user && user.status === 'in-game') {
-            // 处理游戏中断线
-            handleGameDisconnect(socket.id);
-        }
+        handleGameDisconnect(socket.id);
         users.delete(socket.id);
         broadcastUserList();
     });
@@ -212,7 +202,6 @@ io.on('connection', (socket) => {
 });
 
 function handleGameDisconnect(socketId) {
-    // 查找包含该玩家的房间
     for (const [roomId, room] of rooms) {
         if (room.hasPlayer(socketId)) {
             const opponent = room.getOpponent(socketId);
@@ -240,7 +229,6 @@ function broadcastUserList() {
     io.emit('players-list', playersList);
 }
 
-// 心跳检测
 setInterval(() => {
     io.emit('ping');
     const now = Date.now();
