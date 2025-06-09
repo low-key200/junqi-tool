@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>军棋对比工具</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div id="login-screen">
+        <h2>军棋对比工具</h2>
+        <input type="text" id="nickname" placeholder="请输入昵称">
+        <button onclick="login()">进入游戏</button>
+    </div>
+
+    <div id="game-screen" style="display: none;">
+        <div id="players-list">
+            <h3>在线玩家</h3>
+            <div id="players"></div>
+        </div>
+
+        <div id="game-area" style="display: none;">
+            <h3>对战区域</h3>
+            <div id="piece-selection">
+                <!-- 棋子选择按钮将通过JS动态生成 -->
+            </div>
+            <div id="game-status"></div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>
