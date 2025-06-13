@@ -14,17 +14,20 @@
     </div>
 
     <div id="game-screen" style="display: none;">
-        <div id="players-list">
-            <h3>在线玩家</h3>
-            <div id="players"></div>
-        </div>
-
-        <div id="game-area" style="display: none;">
-            <h3>对战区域</h3>
-            <div id="piece-selection">
-                <!-- 棋子选择按钮将通过JS动态生成 -->
+        <!-- Added game-layout wrapper -->
+        <div class="game-layout"> 
+            <div id="players-list">
+                <h3>在线玩家</h3>
+                <div id="players"></div>
             </div>
-            <div id="game-status"></div>
+
+            <div id="game-area" style="display: none;"> <!-- JS will manage this display property -->
+                <h3>对战区域</h3>
+                <div id="piece-selection">
+                    <!-- 棋子选择按钮将通过JS动态生成 -->
+                </div>
+                <div id="game-status"></div>
+            </div>
         </div>
     </div>
 

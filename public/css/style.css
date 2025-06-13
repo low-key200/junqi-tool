@@ -1,140 +1,415 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 :root {
-    --primary-color: #4a90e2;
-    --secondary-color: #f5f6fa;
-    --text-color: #2c3e50;
-    --success-color: #2ecc71;
-    --danger-color: #e74c3c;
-    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Updated Color Palette */
+    --primary-color: hsl(210, 90%, 55%);
+    --primary-color-dark: hsl(210, 90%, 45%);
+    --accent-color: hsl(170, 75%, 45%); /* Vibrant Teal - New Accent Color */
+    --accent-color-dark: hsl(170, 75%, 38%);
+    --secondary-color: hsl(220, 30%, 96%);
+    --card-bg-color: #ffffff;
+    --text-color: hsl(210, 30%, 25%);
+    --text-color-light: hsl(210, 20%, 45%);
+    --success-color: hsl(145, 63%, 42%);
+    --danger-color: hsl(0, 70%, 55%);
+    --warning-color: hsl(35, 85%, 55%);
+    
+    /* Effects & Dimensions */
+    --border-radius-sm: 6px;
+    --border-radius-md: 12px;
+    --border-radius-lg: 20px;
+    --shadow: 0 4px 12px rgba(0, 20, 50, 0.08), 0 2px 6px rgba(0, 20, 50, 0.05);
+    --shadow-hover: 0 6px 18px rgba(0, 20, 50, 0.12), 0 3px 8px rgba(0, 20, 50, 0.08);
+    --transition-speed: 0.25s;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    padding: 0;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 20px;
+    /* Subtle noise/texture for less flat background */
+    background-image: linear-gradient(135deg, var(--secondary-color) 0%, hsl(220, 30%, 90%) 100%),
+                      url("data:image/svg+xml,%3Csvg width='50' height='50' viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.02' fill-rule='evenodd'%3E%3Cpath d='M0 50 L50 0 L50 1 L1 50 M49 50 L0 1 L0 0 L50 49'/%3E%3C/g%3E%3C/svg%3E");
     min-height: 100vh;
     color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.6;
+    scroll-behavior: smooth;
 }
 
+/* Helper for subtle card texture */
+.card-texture {
+    position: relative; /* Needed for pseudo-element overlay if used */
+    /* Subtle gradient overlay for texture */
+    background-image: linear-gradient(to bottom right, hsla(0,0%,100%,0.1), hsla(0,0%,0%,0.01));
+    background-blend-mode: overlay; /* Blend with the card's actual background-color */
+}
+
+
 #login-screen {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 30px;
-    background: white;
-    border-radius: 15px;
+    max-width: 420px;
+    width: 100%;
+    margin: 20px auto;
+    padding: 35px 30px;
+    background-color: var(--card-bg-color); /* Base color */
+    border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow);
     text-align: center;
-    transition: all 0.3s ease;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    /* Applying card texture */
+    /* background-image: linear-gradient(to bottom right, hsla(0,0%,100%,0.05), hsla(0,0%,0%,0.02)); */
 }
 
 #login-screen:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
 }
 
 #login-screen h2 {
     color: var(--primary-color);
-    margin-bottom: 25px;
+    margin-top: 0;
+    margin-bottom: 35px; /* Increased margin */
+    font-size: 2.1em;
+    font-weight: 700; /* Bolder */
+    position: relative;
+    padding-bottom: 12px;
+    /* text-shadow: 1px 1px 1px hsla(210, 90%, 55%, 0.2); Subtle shadow for depth */
 }
+/* Artistic underline for main title */
+#login-screen h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 100px; /* Wider underline */
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color)); /* Gradient underline */
+    border-radius: 3px;
+}
+
 
 input[type="text"] {
     width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 2px solid #eee;
-    border-radius: 8px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
+    padding: 14px 18px;
+    margin: 12px 0;
+    border: 1px solid hsl(210, 20%, 85%);
+    border-radius: var(--border-radius-md);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    background-color: hsl(210, 30%, 98%); /* Light input background */
 }
 
 input[type="text"]:focus {
     border-color: var(--primary-color);
     outline: none;
+    box-shadow: 0 0 0 3px hsla(210, 90%, 55%, 0.3);
+}
+
+input[type="text"]::placeholder {
+    color: var(--text-color-light);
+    opacity: 0.8;
 }
 
 button {
     background: var(--primary-color);
     color: white;
     border: none;
-    padding: 12px 25px;
-    border-radius: 8px;
+    padding: 14px 30px;
+    border-radius: var(--border-radius-md);
     cursor: pointer;
-    font-size: 16px;
-    transition: all 0.3s ease;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: inherit;
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 button:hover {
-    background: #357abd;
-    transform: translateY(-2px);
+    background: var(--primary-color-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+button:active {
+    transform: translateY(-1px);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Challenge button using accent color for variety */
+.player-item button {
+    padding: 8px 15px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0;
+    background-color: var(--accent-color); /* Use accent color */
+}
+.player-item button:hover {
+    background-color: var(--accent-color-dark); /* Darken accent color on hover */
 }
 
 #game-screen {
-    max-width: 1000px;
+    display: none;
+    max-width: 1100px;
+    width: 100%;
     margin: 30px auto;
     padding: 20px;
 }
 
+.game-layout {
+    display: flex;
+    gap: 25px; /* Slightly more gap */
+    align-items: flex-start;
+}
+
+/* Common styling for section titles within game screen */
+#players-list h3,
+#game-area h3,
+#game-status h4 {
+    color: var(--primary-color);
+    margin-top: 0;
+    font-size: 1.4em; /* Slightly reduced for sub-sections */
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 8px; /* Space for underline */
+    margin-bottom: 20px;
+    /* border-bottom: 1px solid hsl(210, 20%, 90%); */ /* Replaced by pseudo-element */
+}
+#players-list h3::after,
+#game-area h3::after,
+#game-status h4::after {
+    content: '';
+    position: absolute;
+    left: 0; /* Align to left for section titles */
+    bottom: 0;
+    width: 50px;
+    height: 3px;
+    background-color: var(--accent-color); /* Use accent color for underlines */
+    border-radius: 2px;
+}
+/* Special case for game status title, perhaps centered */
+#game-status h4 {
+    text-align: center;
+}
+#game-status h4::after {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+#players-list, #game-area {
+    background-color: var(--card-bg-color); /* Base color */
+    padding: 25px;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow);
+    /* Applying card texture */
+    /* background-image: linear-gradient(to bottom right, hsla(0,0%,100%,0.05), hsla(0,0%,0%,0.02)); */
+}
+
+#players-list {
+    flex: 1;
+    min-width: 280px;
+    margin-bottom: 20px; /* Kept for stacked layout on mobile */
+}
+
 .player-item {
-    padding: 15px;
+    padding: 15px 20px;
     margin: 10px 0;
-    background: white;
-    border-radius: 10px;
+    background: hsl(210, 30%, 97%);
+    border-radius: var(--border-radius-md);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: var(--shadow);
-    transition: transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease;
+    font-weight: 500;
 }
 
 .player-item:hover {
-    transform: translateX(5px);
+    transform: translateX(5px) scale(1.02);
+    box-shadow: var(--shadow);
+    background-color: var(--card-bg-color);
+}
+
+.player-item span {
+    color: var(--text-color-light);
+    font-size: 0.9em;
+}
+
+#game-area {
+    flex: 2;
+}
+
+
+#piece-selection {
+    margin-bottom: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Gap between piece buttons */
+    justify-content: center;
+}
+
+#piece-selection h4 {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+    color: var(--text-color);
+    font-size: 1.1em;
+    font-weight: 500; /* Normal weight for this helper text */
+    /* Remove its own underline if section title has one */
+}
+/* No underline for this h4 as its parent section has one */
+#piece-selection h4::after {
+    display: none;
 }
 
 .piece-button {
-    margin: 8px;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
+    margin: 0;
+    padding: 8px 12px; /* Reduced padding for smaller buttons */
+    border: 1px solid var(--primary-color-dark); /* Added border */
+    border-radius: var(--border-radius-sm); /* Slightly sharper corners */
     background: var(--primary-color);
     color: white;
+    font-weight: 500;
+    font-size: 0.85rem; /* Smaller font size */
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed) ease;
+    flex-grow: 1;
+    min-width: 85px; /* Adjusted min-width */
+    text-transform: none;
+    letter-spacing: 0;
 }
 
 .piece-button:hover {
-    background: #357abd;
-    transform: scale(1.05);
+    background: var(--primary-color-dark);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.piece-button:active {
+    transform: translateY(0) scale(1);
 }
 
 #game-status {
     margin-top: 20px;
     padding: 20px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: var(--shadow);
+    background: hsl(220, 30%, 97%); /* Slightly different background */
+    border-radius: var(--border-radius-md);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    text-align: center;
 }
 
-#players-list {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: var(--shadow);
-    margin-bottom: 20px;
+#game-status p {
+    margin: 10px 0;
+    font-size: 1rem;
+    font-weight: 600; /* Bolding paragraphs in game status for result display */
+    /* 
+       NOTE FOR DEVELOPER: 
+       To color "存活" (survived) and "阵亡" (defeated) text specifically (e.g., green/red),
+       it's highly recommended to modify the JavaScript (main.js) to wrap these status words 
+       in <span> tags with specific classes. For example:
+       '<p>你的状态: <span class="status-alive">存活</span></p>'
+       '<p>对手状态: <span class="status-defeated">阵亡</span></p>'
+       Then, you can style these classes in CSS:
+       .status-alive { color: var(--success-color); font-weight: 700; }
+       .status-defeated { color: var(--danger-color); font-weight: 700; }
+       Without JS changes, CSS cannot reliably target and color these specific words differently.
+    */
 }
+/* Example styles if JS was modified (keep these commented or remove if JS isn't changed) */
+/*
+.status-alive {
+    color: var(--success-color);
+    font-weight: 700 !important; 
+}
+.status-defeated {
+    color: var(--danger-color);
+    font-weight: 700 !important;
+}
+*/
 
-#players-list h3 {
-    color: var(--primary-color);
-    margin-top: 0;
+#game-status button { /* Reset button */
+    margin-top: 15px;
+    background-color: var(--warning-color);
+}
+#game-status button:hover {
+    background-color: hsl(35, 85%, 45%);
 }
 
 @media (max-width: 768px) {
-    #login-screen, #game-screen {
-        margin: 20px;
-        padding: 15px;
+    body {
+        padding: 10px;
+    }
+    #login-screen {
+        margin: 20px auto;
+        padding: 25px 20px;
+    }
+    #login-screen h2 {
+        font-size: 1.8em;
+    }
+    #login-screen h2::after {
+        width: 70px;
+        height: 3px;
+    }
+    
+    .game-layout {
+        flex-direction: column;
+    }
+
+    #game-screen {
+        margin: 20px auto;
+        padding: 10px;
+    }
+
+    #players-list, #game-area {
+        padding: 20px;
+        width: 100%;
+    }
+    #players-list h3, #game-area h3, #game-status h4 {
+        font-size: 1.2em;
+    }
+    #players-list h3::after, #game-area h3::after, #game-status h4::after {
+        width: 40px;
+        height: 2px;
     }
     
     .piece-button {
-        padding: 10px 15px;
-        font-size: 14px;
+        padding: 8px 10px;
+        font-size: 0.8rem;
+        min-width: 75px;
+    }
+
+    button {
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+    input[type="text"] {
+        padding: 12px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    #login-screen h2 {
+        font-size: 1.6em;
+        margin-bottom: 20px;
+    }
+    input[type="text"], button {
+        font-size: 0.9rem;
+    }
+    .piece-button {
+        flex-basis: calc(33.33% - 7px); /* Aim for 3 buttons per row, adjust gap calc */
+        min-width: unset; /* Allow flex-basis to dictate width */
+    }
+    #players-list h3, #game-area h3, #game-status h4 {
+        font-size: 1.1em;
     }
 }

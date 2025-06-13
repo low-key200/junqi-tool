@@ -85,8 +85,9 @@ function deleteRoom(roomId) {
 // 清理超时房间
 setInterval(() => {
     const now = Date.now();
-    for (const [roomId, room] of rooms.entries()) {
+    for (const [roomId, room] of rooms.entries()) { // .entries() is good practice for iterating Map
         if (now - room.createdAt > 3600000) { // 1小时后自动清理
+            console.log(`Auto-deleting timeout room: ${roomId}`); // Optional: log deletion
             deleteRoom(roomId);
         }
     }
@@ -95,5 +96,6 @@ setInterval(() => {
 module.exports = {
     createRoom,
     getRoomById,
-    deleteRoom
+    deleteRoom,
+    rooms // <--- ADD THIS LINE TO EXPORT THE rooms Map
 };
